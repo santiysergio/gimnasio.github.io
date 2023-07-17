@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <meta charset="UTF-8">
   <title>Calendario de Entrenamiento</title>
   <style>
     /* Estilos para el calendario */
@@ -65,44 +64,45 @@
       "Máquina de correr"
     ];
 
-    // Función para generar un calendario aleatorio
-    function generateRandomCalendar() {
-      var calendarData = [];
+    // Función para generar un horario aleatorio para la semana
+    function generateWeeklySchedule() {
+      var scheduleData = [];
 
       // Obtener una lista de días de la semana
       var days = ["Lunes", "Martes", "Miércoles", "Jueves"];
 
       // Recorrer cada día y asignar máquinas aleatorias
       days.forEach(function(day) {
-        var machinesCopy = machines.slice(); // Copia de las máquinas disponibles
-        var machinesForDay = [];
-
-        // Seleccionar 3 máquinas aleatorias para el día
-        for (var i = 0; i < 3; i++) {
-          var randomIndex = Math.floor(Math.random() * machinesCopy.length);
-          var randomMachine = machinesCopy.splice(randomIndex, 1)[0];
-          machinesForDay.push(randomMachine);
-        }
-
-        // Crear objeto con los datos del día y máquinas asignadas
+        var machinesForDay = getTrainingMachines();
         var dayData = {
           day: day,
           machines: machinesForDay.join(", "),
           duration: "1 hora"
         };
-
-        calendarData.push(dayData);
+        scheduleData.push(dayData);
       });
 
-      return calendarData;
+      return scheduleData;
+    }
+
+    // Función para obtener las máquinas de entrenamiento aleatorias
+    function getTrainingMachines() {
+      var machinesCopy = machines.slice();
+      var machinesForDay = [];
+      for (var i = 0; i < 3; i++) {
+        var randomIndex = Math.floor(Math.random() * machinesCopy.length);
+        var randomMachine = machinesCopy.splice(randomIndex, 1)[0];
+        machinesForDay.push(randomMachine);
+      }
+      return machinesForDay;
     }
 
     // Función para crear las filas del calendario
-    function createCalendarRows() {
+    function createScheduleRows() {
       var calendarBody = document.getElementById("calendar-body");
-      var calendarData = generateRandomCalendar();
+      var scheduleData = generateWeeklySchedule();
 
-      calendarData.forEach(function(data) {
+      scheduleData.forEach(function(data) {
         var row = document.createElement("tr");
         var dayCell = document.createElement("td");
         dayCell.textContent = data.day;
@@ -119,7 +119,7 @@
     }
 
     // Llamar a la función para crear las filas del calendario
-    createCalendarRows();
+    createScheduleRows();
   </script>
 </body>
 </html>
